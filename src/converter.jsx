@@ -186,7 +186,7 @@ export default function Converter() {
             onClick={() => handleModeChange(m.id)}
             className={`py-2 px-2 text-sm font-semibold rounded-lg transition duration-150 cursor-pointer ${
               mode === m.id
-                ? "bg-slate-950 text-blue-400 shadow"
+                ? "bg-slate-950 text-blue-200 shadow"
                 : "text-slate-400 hover:text-slate-200"
             }`}
           >
@@ -197,7 +197,7 @@ export default function Converter() {
 
       {/* Upload area + conversion options, side by side */}
       <div className="flex flex-col sm:flex-row gap-4">
-        <label className="flex-1 flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-700 rounded-xl cursor-pointer hover:border-blue-500 hover:bg-blue-500/5 transition duration-200 text-center">
+        <label className="flex-1 flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-700 rounded-xl cursor-pointer hover:border-blue-200 hover:bg-blue-500/5 transition duration-200 text-center">
           <span className="text-slate-300 font-medium mb-1">
             {file ? file.name : `Click to select a ${mode === "video" ? "video" : "image"}`}
           </span>
@@ -222,7 +222,7 @@ export default function Converter() {
               <select
                 value={format}
                 onChange={(e) => setFormat(e.target.value)}
-                className="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-200"
               >
                 {IMAGE_FORMATS.map((f) => (
                   <option key={f.value} value={f.value}>
@@ -241,7 +241,7 @@ export default function Converter() {
               <select
                 value={videoFormat}
                 onChange={(e) => setVideoFormat(e.target.value)}
-                className="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-200"
               >
                 {VIDEO_FORMATS.map((f) => (
                   <option key={f.value} value={f.value}>
@@ -284,7 +284,7 @@ export default function Converter() {
         <button
           onClick={handleConvert}
           disabled={processing}
-          className="w-full mt-4 py-2.5 bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:text-slate-400 text-white font-semibold rounded-lg shadow transition duration-200 cursor-pointer disabled:cursor-not-allowed"
+          className="w-full mt-4 py-2.5 bg-slate-800 hover:bg-slate-700 disabled:bg-slate-700 disabled:text-slate-400 text-white font-semibold rounded-lg shadow transition duration-200 cursor-pointer disabled:cursor-not-allowed"
         >
           {processing
             ? "Processing…"
