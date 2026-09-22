@@ -124,10 +124,10 @@ function FormatSelect({ value, onChange, options }) {
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full appearance-none cursor-pointer bg-neutral-200 text-neutral-900 font-semibold border border-neutral-100 rounded-lg pl-3 pr-9 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400 hover:bg-white transition"
+        className="w-full appearance-none cursor-pointer bg-neutral-100 text-neutral-900 font-semibold border border-neutral-100 rounded-lg pl-3 pr-9 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400 hover:bg-white transition"
       >
         {options.map((f) => (
-          <option key={f.value} value={f.value} className="bg-neutral-200 text-neutral-900">
+          <option key={f.value} value={f.value} className="bg-white text-neutral-900">
             {f.label}
           </option>
         ))}
@@ -195,6 +195,27 @@ export default function Converter() {
         error: null,
       }));
     if (added.length) setItems((prev) => [...prev, ...added]);
+  };
+
+  // Changing the output format invalidates any previous conversion, so
+  // already-"done" files need to go back to "idle" to be picked up again.
+  const resetDoneItems = () =>
+    setItems((prev) =>
+      prev.map((it) => {
+        if (it.status !== "done") return it;
+        if (it.resultUrl) URL.revokeObjectURL(it.resultUrl);
+        return { ...it, status: "idle", resultUrl: null, resultExt: null };
+      })
+    );
+
+  const handleFormatChange = (value) => {
+    setFormat(value);
+    resetDoneItems();
+  };
+
+  const handleVideoFormatChange = (value) => {
+    setVideoFormat(value);
+    resetDoneItems();
   };
 
   const handleFileChange = (e) => {
@@ -278,7 +299,7 @@ export default function Converter() {
             disabled={running}
             className={`py-2 px-2 text-sm font-semibold rounded-lg transition duration-150 cursor-pointer disabled:cursor-not-allowed ${
               mode === m.id
-                ? "bg-neutral-200 text-black shadow"
+                ? "bg-white text-black shadow"
                 : "text-neutral-400 hover:text-white"
             }`}
           >
@@ -331,7 +352,7 @@ export default function Converter() {
               <label className="text-sm font-medium text-neutral-300 mb-2">
                 Convert to
               </label>
-              <FormatSelect value={format} onChange={setFormat} options={IMAGE_FORMATS} />
+              <FormatSelect value={format} onChange={handleFormatChange} options={IMAGE_FORMATS} />
             </>
           )}
 
@@ -342,7 +363,7 @@ export default function Converter() {
               </label>
               <FormatSelect
                 value={videoFormat}
-                onChange={setVideoFormat}
+                onChange={handleVideoFormatChange}
                 options={VIDEO_FORMATS}
               />
               <p className="text-xs text-neutral-500 mt-2">
